@@ -1,0 +1,8 @@
+body {
+    background-color: rgb(255, 244, 213);
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+tr, td, th {
+    border: 0.4px solid black;
+    padding: 3px;
+}
