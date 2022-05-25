@@ -9,26 +9,33 @@ const host = `http://${window.location.host}/`;
 
 async function update(button) {
 
-    resetTable();
+    try {
+        folder = button.getAttribute("data-folder");
 
-    const element = document.getElementById(button.getAttribute("data-elementopai"));
+        const raw_data = await fetch(`${host}getFolder?folder=${btoa(folder)}`);
+        const data = await raw_data.json();
 
-    folder = element.getAttribute("data-folder");
+        resetTable();
 
-    const raw_data = await fetch(`${host}getFolder?folder=${btoa(folder)}`);
-    const data = await raw_data.json();
-
-    data.sort((x, y) => y.type.length - x.type.length).map(x => {
-        table.innerHTML += `
-            <tr id="${x.path}" onclick="update(this)" data-folder="${folder}${x.name}/">
-                <td><img src="/public/assets/${x.type == 'folder'? 'pasta.png':'arquivo.png'}"></td>
-                <td>${x.name}</td>
+        data.sort((x, y) => y.type.length - x.type.length).map(x => {
+            console.log(x)
+            table.innerHTML += `
+            <tr>
+                <td><img src="/public/assets/${x.type == 'folder' ? 'pasta.png' : 'arquivo.png'}"></td>
+                <td style="text-align:left;">${x.name}</td>
                 <td>${x.size_bytes} bytes</td>
                 <td>${x.createdIn}</td>
-                <td><button data-folder="${folder}${x.name}/" onclick="update(this)"><img src="/public/assets/download.png"></button> | <button></button> | <button></button></td>
+                <td>${x.mimeType}</td>
+                <td>
+                    <button data-folder="${folder}${x.name}${x.type == 'folder'? '/':''}" onclick="update(this)"><img src="/public/assets/download.png"></button> | 
+                    <button><img src="/public/assets/lixeira.png"></button> | 
+                    <button></button>
+                </td>
             </tr>`
-    })
-
+        })
+    } catch(e) {
+        if(e.message == "Unexpected token C in JSON at position 0") open(`${host}getFolder?sendFile=1&folder=${btoa(folder)}`)
+    }
 }
 
 function resetTable() {
@@ -36,18 +43,20 @@ function resetTable() {
     const filter = folder.split('/').slice(0, -1).join('/');
     table.innerHTML = `
     <tr>
-        <th style="font-weight: none;">Tipo</th>
-        <th style="text-align: left; ">Nome</th>
-        <th style="font-weight: none;">Tamanho</th>
-        <th style="font-weight: none;">Criado em</th>
-        <th style="font-weight: none;">Ações</th>
+        <th>Tipo</th>
+        <th>Nome</th>
+        <th>Tamanho</th>
+        <th>Criado em</th>
+        <th>Mime type</th>
+        <th>Ações</th>
     </tr>
-    <tr id="/" data-folder="${filter.length == 0? '/':filter}" onclick="update(this)">
+    <tr>
         <td><img src="/public/assets/pasta aberta.png"></td>
-        <td>Uma pasta acima...</td>
+        <td style="text-align:left;">Uma pasta acima...</td>
         <td>0 bytes</td>
         <td>Agora</td>
-        <td><button data-elementopai="/" onclick="update(this)"><img src="/public/assets/download.png"></button> | <button></button> | <button></button></td>
+        <td>Pasta</td>
+        <td><button data-folder="${filter.length == 0 ? '/' : filter}" onclick="update(this)"><img src="/public/assets/download.png"></button> | <button><img src="/public/assets/lixeira.png"></button> | <button></button></td>
     </tr>
     `
 }

@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
 
 body {
-    background-color: rgb(255, 244, 213);
+    background-color: rgba(255, 244, 213, 0.5);
     font-family: Roboto;
     font-weight: 400;
 }
@@ -10,6 +10,8 @@ tr, td, th {
     border: 0.4px solid black;
     padding: 3px;
     padding-inline: 10px;
+    background-color: rgba(255, 244, 213, 1);
+    border-radius: 5px;
 }
 
 tr img {
@@ -19,4 +21,12 @@ tr img {
 
 tr button {
     cursor: pointer;
+}
+
+th {
+    font-weight: none;
+}
+
+td {
+    text-align:center;
 }
