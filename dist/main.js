@@ -9,8 +9,9 @@ const express_1 = __importDefault(require("express"));
 const app = (0, express_1.default)();
 const port = 8080;
 app.use('/public', express_1.default.static('public'));
+app.use(express_1.default.json());
 for (const x of main_1.default)
-    app.get(x.route, x.fn);
+    app[x.method || 'get'](x.route, x.fn);
 app.listen(8080, () => {
     console.log(`\x1b[32mListening in http://${ip_1.default.local}:${port}\x1b[0m`);
 });

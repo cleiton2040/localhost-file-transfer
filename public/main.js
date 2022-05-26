@@ -18,7 +18,6 @@ async function update(button) {
         resetTable();
 
         data.sort((x, y) => y.type.length - x.type.length).map(x => {
-            console.log(x)
             table.innerHTML += `
             <tr>
                 <td><img src="/public/assets/${x.type == 'folder' ? 'pasta.png' : 'arquivo.png'}"></td>
@@ -28,7 +27,7 @@ async function update(button) {
                 <td>${x.mimeType}</td>
                 <td>
                     <button data-folder="${folder}${x.name}${x.type == 'folder'? '/':''}" onclick="update(this)"><img src="/public/assets/download.png"></button> | 
-                    <button><img src="/public/assets/lixeira.png"></button> | 
+                    <button data-folder="${folder}${x.name}${x.type == 'folder'? '/':''}" onclick="Delete(this)"><img src="/public/assets/lixeira.png"></button> | 
                     <button></button>
                 </td>
             </tr>`

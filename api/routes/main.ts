@@ -1,4 +1,5 @@
 import home from './home';
+import Delete from './delete';
 import getFolder from './getFolder';
 
 const routes = [
@@ -9,6 +10,11 @@ const routes = [
     {
         fn: getFolder,
         route: '/getFolder'
+    },
+    {
+        fn: Delete,
+        route: '/delete',
+        method: 'delete'
     }
 ]
 
