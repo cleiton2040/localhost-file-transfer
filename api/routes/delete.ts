@@ -10,10 +10,11 @@ export default async function (req: Request, res: Response) {
 
     if (!path) return res.status(404);
 
-    const fileName = path.slice(1).replace(/\/|\\/g, '___')
+    const fileName = path.slice(1).replace(/\/|\\/g, '_')
 
     fs.renameSync(
-        `\\files${path}`, 
-        `\\deleted\\${fileName}`.replace(/\\/g, '/'))
+        `${process.cwd()}\\files${path}`.replace(/\\/g, '/'), 
+        `${process.cwd()}\\deleted\\${fileName}`.replace(/\\/g, '/')
+    )
 
 }

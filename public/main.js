@@ -1,6 +1,5 @@
 let folder = "/";
 const table = document.getElementById('file-list');
-const host = `http://${window.location.host}/`;
 
 /**
  * btoa = ascii to base64
@@ -10,6 +9,7 @@ const host = `http://${window.location.host}/`;
 async function update(button) {
 
     try {
+
         folder = button.getAttribute("data-folder");
 
         const raw_data = await fetch(`${host}getFolder?folder=${btoa(folder)}`);
@@ -32,6 +32,7 @@ async function update(button) {
                 </td>
             </tr>`
         })
+
     } catch(e) {
         if(e.message == "Unexpected token C in JSON at position 0") open(`${host}getFolder?sendFile=1&folder=${btoa(folder)}`)
     }
@@ -39,7 +40,8 @@ async function update(button) {
 
 function resetTable() {
 
-    const filter = folder.split('/').slice(0, -1).join('/');
+    const filter = folder.split('/').slice(0, -2).join('/') || '/';
+    console.log(filter)
     table.innerHTML = `
     <tr>
         <th>Tipo</th>
@@ -55,7 +57,7 @@ function resetTable() {
         <td>0 bytes</td>
         <td>Agora</td>
         <td>Pasta</td>
-        <td><button data-folder="${filter.length == 0 ? '/' : filter}" onclick="update(this)"><img src="/public/assets/download.png"></button> | <button><img src="/public/assets/lixeira.png"></button> | <button></button></td>
+        <td><button data-folder="${filter}" onclick="update(this)"><img src="/public/assets/download.png"></button> | <button><img src="/public/assets/lixeira.png"></button> | <button></button></td>
     </tr>
     `
 }

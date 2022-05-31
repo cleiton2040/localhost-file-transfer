@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const home_1 = __importDefault(require("./home"));
 const delete_1 = __importDefault(require("./delete"));
 const getFolder_1 = __importDefault(require("./getFolder"));
+const login_1 = __importDefault(require("./login"));
 const routes = [
     {
         fn: home_1.default,
@@ -19,6 +20,10 @@ const routes = [
         fn: delete_1.default,
         route: '/delete',
         method: 'delete'
+    },
+    {
+        fn: login_1.default,
+        route: ('/login')
     }
 ];
 exports.default = routes;

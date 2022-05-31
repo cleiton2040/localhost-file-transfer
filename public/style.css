@@ -12,6 +12,7 @@ tr, td, th {
     padding-inline: 10px;
     background-color: rgba(255, 244, 213, 1);
     border-radius: 5px;
+    min-inline-size: 1em;
 }
 
 tr img {

@@ -8,7 +8,7 @@ async function default_1(req, res) {
     const path = req.body.path;
     if (!path)
         return res.status(404);
-    const fileName = path.slice(1).replace(/\/|\\/g, '___');
-    fs_1.default.renameSync(`${process.cwd()}\\files${path}`, `\\deleted\\${fileName}`.replace(/\\/g, '/'));
+    const fileName = path.slice(1).replace(/\/|\\/g, '_');
+    fs_1.default.renameSync(`${process.cwd()}\\files${path}`.replace(/\\/g, '/'), `${process.cwd()}\\deleted\\${fileName}`.replace(/\\/g, '/'));
 }
 exports.default = default_1;
