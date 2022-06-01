@@ -15,7 +15,7 @@ export default async function(req: Request, res: Response) {
     sessions.set(
         hash, 
         {
-            login: req.query.username, 
+            username: req.query.username, 
             password: req.query.password,
             in: Date.now(),
             ip: req.socket.localAddress || req.ip,

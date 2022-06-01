@@ -11,13 +11,12 @@ async function default_1(req, res) {
         return res.status(401).send({ status: 401, message: 'login or password incorrect' });
     database_1.sessions.set(hash, {
         login: req.query.username,
-        password: req.query.password
-    });
-    database_1.users.push('sessions', {
+        password: req.query.password,
         in: Date.now(),
         ip: req.socket.localAddress || req.ip,
         userAgent: req.get('User-Agent')
     });
+    database_1.users.push('sessions', hash);
     res.status(200).send({ hash });
 }
 exports.default = default_1;

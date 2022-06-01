@@ -3,8 +3,7 @@ async function ask() {
     const username = prompt('Usuário: ')
     const password = prompt('Senha: ')
 
-    const raw_data = await fetch(`${host}login?username=${username}&password=${password}`)
-    const data = await raw_data.json()
+    const data = await new API_Request('login').append('username', username).append('password', password).fetch()
 
     if (data.status != 200) {
 

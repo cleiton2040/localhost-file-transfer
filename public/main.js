@@ -12,8 +12,7 @@ async function update(button) {
 
         folder = button.getAttribute("data-folder");
 
-        const raw_data = await fetch(`${host}getFolder?folder=${btoa(folder)}`);
-        const data = await raw_data.json();
+        const data = await new API_Request('getFolder').append('folder', btoa(folder)).fetch();
 
         resetTable();
 

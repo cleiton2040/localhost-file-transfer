@@ -7,7 +7,7 @@ export interface User {
 }
 
 export interface Sessions {
-    login: string, 
+    username: string, 
     password: string,
     in: number,
     ip: string,

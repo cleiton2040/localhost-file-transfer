@@ -2,7 +2,7 @@ function Delete(button) {
 
     const path = button.getAttribute('data-folder')
 
-    fetch(`${host}delete`, {
+    new API_Request('delete').fetch({
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json'
