@@ -1,5 +1,3 @@
-const host = `http://${window.location.host}/`;
-
 async function ask() {
     
     const username = prompt('Usuário: ')

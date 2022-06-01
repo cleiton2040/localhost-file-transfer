@@ -16,15 +16,14 @@ export default async function(req: Request, res: Response) {
         hash, 
         {
             login: req.query.username, 
-            password: req.query.password
+            password: req.query.password,
+            in: Date.now(),
+            ip: req.socket.localAddress || req.ip,
+            userAgent: req.get('User-Agent')
         }
     )
 
-    users.push('sessions', {
-        in: Date.now(),
-        ip: req.socket.localAddress || req.ip,
-        userAgent: req.get('User-Agent')
-    })
+    users.push('sessions', hash)
 
     res.status(200).send({ hash })
 
