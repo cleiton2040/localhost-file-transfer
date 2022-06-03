@@ -10,7 +10,7 @@ async function default_1(req, res) {
     if (!username || !password || user?.password !== password)
         return res.status(401).send({ status: 401, message: 'login or password incorrect' });
     database_1.sessions.set(hash, {
-        login: req.query.username,
+        username: req.query.username,
         password: req.query.password,
         in: Date.now(),
         ip: req.socket.localAddress || req.ip,

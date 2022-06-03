@@ -23,7 +23,7 @@ const routes = [
     },
     {
         fn: login_1.default,
-        route: ('/login')
+        route: '/login'
     }
 ];
 exports.default = routes;

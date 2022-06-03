@@ -19,7 +19,7 @@ const routes = [
     },
     {
         fn: login,
-        route: ('/login')
+        route: '/login'
     }
 ]
 

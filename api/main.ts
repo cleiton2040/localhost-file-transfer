@@ -8,9 +8,9 @@ const app = express();
 const port = 8080;
 
 app.use('/public', express.static('public'));
-app.use(express.json());
-app.use(login)
-
+app.use(express.json()); // @ts-ignore
+app.use(login);
+// @ts-ignore
 for (const x of routes) app[x.method as 'get' || 'get'](x.route, x.fn);
 
 app.listen(8080, () => {

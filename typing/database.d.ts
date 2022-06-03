@@ -3,7 +3,7 @@ import { QuickDB } from "quick.db"
 export interface User {
     username: string
     password: string
-    entries: string[]
+    sessions: string[]
 }
 
 export interface Sessions {

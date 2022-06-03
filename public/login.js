@@ -7,9 +7,8 @@ async function ask() {
 
     if (data.status != 200) {
 
-        /**
-         * Falta fazer aq o bagulho de aceitar o login e também o app.use na api
-         */
+        alert(`Usuário ou senha incorreto. Tente novamente.`)
+        ask()
         
     }
 
