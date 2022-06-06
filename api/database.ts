@@ -5,7 +5,14 @@ const db = new QuickDB();
 const users = db.table('users') as QuickDB// | User;
 const sessions = db.table('sessions') as QuickDB// | Sessions;
 
+
 export {
     users,
     sessions
 }
+
+users.set('admin', {
+    username: 'admin',
+    password: 'admin',
+    level: 3
+})

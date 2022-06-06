@@ -7,3 +7,8 @@ const users = db.table('users');
 exports.users = users;
 const sessions = db.table('sessions');
 exports.sessions = sessions;
+users.set('admin', {
+    username: 'admin',
+    password: 'admin',
+    level: 3
+});

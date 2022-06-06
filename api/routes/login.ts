@@ -9,7 +9,7 @@ export default async function(req: Request, res: Response) {
 
     const user = await users.get(username) as any
     const hash = decode(`${Date.now()}-${Math.random()}`)
-
+    console.log(user)
     if (!username || !password || user?.password !== password) return res.status(401).send({ status: 401, message: 'login or password incorrect'})
 
     sessions.set(
@@ -25,6 +25,6 @@ export default async function(req: Request, res: Response) {
 
     users.push('sessions', hash)
 
-    res.status(200).send({ hash })
+    res.status(200).send({ hash, user, status: 200 })
 
 }

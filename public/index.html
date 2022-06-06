@@ -11,9 +11,14 @@
 
 <body>
 
-    <head>
-
-    </head>
+    <header>
+        <b class="username">
+            Sem usuário
+        </b>
+        <div>
+            <button id="sendfile" onclick="OpenSendfileMenu(this)"><img src="/public/assets/send-file.png"></button>
+        </div>
+    </header>
 
     <main>
         <table id="file-list">
@@ -21,6 +26,8 @@
         </table>
     </main>
 
+    <script src="/public/popup.js"></script>
+    <script src="/public/sendfile.js"></script>
     <script src="/public/API.js"></script>
     <script src="/public/login.js"></script>
     <script src="/public/main.js"></script>

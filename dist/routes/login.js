@@ -7,6 +7,7 @@ async function default_1(req, res) {
     const password = req.query.password;
     const user = await database_1.users.get(username);
     const hash = (0, Base64_1.decode)(`${Date.now()}-${Math.random()}`);
+    console.log(user);
     if (!username || !password || user?.password !== password)
         return res.status(401).send({ status: 401, message: 'login or password incorrect' });
     database_1.sessions.set(hash, {
@@ -17,6 +18,6 @@ async function default_1(req, res) {
         userAgent: req.get('User-Agent')
     });
     database_1.users.push('sessions', hash);
-    res.status(200).send({ hash });
+    res.status(200).send({ hash, user, status: 200 });
 }
 exports.default = default_1;

@@ -31,6 +31,12 @@ async function update(button) {
                 </td>
             </tr>`
         })
+        
+        console.log(user);
+
+        for ( let x of document.getElementsByClassName('username')) {
+            x.innerHTML = user.username + ' - ' + user.level || 0
+        }
 
     } catch(e) {
         if(e.message == "Unexpected token C in JSON at position 0") open(`${host}getFolder?sendFile=1&folder=${btoa(folder)}`)
