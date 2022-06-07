@@ -23,6 +23,7 @@ async function ask() {
         
         update({ getAttribute: () => '/' })
         
+        window.location.href = window.location.href.includes('/')? host:host + '/'
     }
 
     /**

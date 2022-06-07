@@ -67,3 +67,13 @@ header img {
 header div * {
     margin-inline: 20px;
 }
+
+label {
+    width: 45%;
+    background-color: #333;
+    color: #FFF;
+    text-align: center;
+    display: block;
+    margin-top: 10px;
+    cursor: pointer;
+}

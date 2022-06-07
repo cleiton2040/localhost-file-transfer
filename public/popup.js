@@ -16,7 +16,7 @@ class Popup {
 
         this.element = document.getElementById('popup')
         this.background = document.getElementById('popup-background')
-        this.button = this.addButton('x', self.close)//this.element.getElementsByTagName('button')[0];
+        this.button = this.addButton('x', 'Popup.close()')//this.element.getElementsByTagName('button')[0];
 
         Popup_Running = true;
 
@@ -34,8 +34,8 @@ class Popup {
         this.element.style.transform = 'translate(-50%, -50%)'
         this.element.style.padding = '5px';
         this.element.style.border = '0.4px solid black'
-        this.element.style.borderRadius = '10%'
-        this.element.style.backgroundColor = 'rgba(255, 255, 255, 0.5)'
+        this.element.style.borderRadius = '15px'
+        this.element.style.backgroundColor = 'rgba(255, 255, 255, 0.65)'
         this.element.style.display = 'flex'
         this.element.style.flexDirection = 'column'
 
@@ -46,8 +46,6 @@ class Popup {
         this.button.style.float = 'right'
         this.button.style.direction = 'right'
 
-        //this.button.addEventListener('click', this.close)
-
     }
 
     addButton(innerHTML, onclick) {
@@ -57,11 +55,13 @@ class Popup {
 
     }
 
-    close() {
+    static close() {
 
         document.getElementById('popup-background').remove()
 
         Popup_Running = false;
 
     }
+
+    close = Popup.close
 }
