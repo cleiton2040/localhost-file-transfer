@@ -1,4 +1,4 @@
-function OpenSendfileMenu() {
+async function OpenSendfileMenu() {
 
     const popup = new Popup()
 
@@ -20,19 +20,44 @@ function OpenSendfileMenu() {
                 <strong>Enviar arquivo</strong>
             </div>
             <br>
-            <strong> Nome do arquivo: <input type='text'> </strong>
-            <div style='display: flex; width: auto; border-radius: 5px'>
-                <label for='arquivo'> Selecionar arquivo </label>
-                <label> Enviar arquivo</label>
-                <input type="file" name="arquivo" id="arquivo" style='display: none;'>
-            </div>
+            <form id="sendfile-form" style='display: flex; flex-direction: row;' action="/upload" method="post" enctype="multipart/form-data">
+                <label for='file-upload'> Selecionar arquivo </label>
+                <label for='sendfile' id='sendfile-label'> Enviar arquivo</label>
+                <input style='display: none;' type='submit' id='sendfile-button' ></input>
+                <input type="file" id="file-upload" style='display: none;'>
+            </form>
         </div>
     </div>
     `
 
-    const container_pai = document.getElementById('sendfile-container');
+    const label_sendfile = document.getElementById('sendfile-label')
+    const sendfile = document.getElementById('sendfile-button')
+    const form = document.getElementById('sendfile-form')
+    const file_upload = document.getElementById('file-upload')
 
-    container_pai.style.display = 'flex';
-    container_pai.style.flexDirection = 'row';
+    label_sendfile.addEventListener('click', () => {
+        sendfile.click()
+    })
 
+    form.addEventListener('submit', (e) => {
+        
+        e.preventDefault()
+
+        const file = file_upload.files
+        const formData = new FormData()
+
+        formData.append('files[]', file)
+
+        const request = new API_Request()
+
+        request.setRoute('upload')
+        
+        const data = await request.fetch({
+            method: 'POST',
+            body: formData()
+        })
+
+        console.log(file, formData, request, data)
+
+    })
 }

@@ -1,0 +1,49 @@
+#sendfile-container label { /* OS BOTOES DE CRIAR PASTA, SELECIONAR ARQUIVO E ENVIAR ARQUIVO */
+    width: 45%;
+    background-color: rgb(43, 43, 43);
+    color: #FFF;
+    text-align: center;
+    display: block;
+    margin-top: 10px;
+    cursor: pointer;
+    padding: 6px;
+    float: right;
+    border-radius: 10px;
+    border: 0.4px solid black;
+    margin-inline: 1px;
+}
+
+#sendfile-container > div { /* OS 2 CONTEINERS*/
+    padding: 5px; 
+    margin: 5px; 
+    border: 0.4px solid black; 
+    border-radius: 10px; 
+    width: 200%;
+}
+
+#sendfile-container > div div:first-child { /* OS 2 TITULOS, UM PRA CADA CONTAINER */
+    text-align: center; 
+    font-size: 120%
+}
+
+#sendfile-container input {     
+    width: 92%;
+    padding: 5px;
+    margin-block: 2px;
+    color: white;
+    background-color: rgb(43, 43, 43);
+    border: 0.4px solid black;
+    border-radius: 10px;
+    font-size: 100%;
+    padding-inline: 10px;
+}
+
+#sendfile-container {
+    display: flex;
+    flex-direction: row;
+}
+
+#sendfile-container > div form:nth-child(2) {
+    display: flex;
+    flex-direction: row;
+}
