@@ -2,7 +2,8 @@ import fs from 'fs';
 import ip from './ip';
 import routes from './routes/main';
 import express, { Request, Response } from 'express';
-import login from './use/login';
+import login from './use/login'; //@ts-ignore
+import formidableMiddleware from 'express-formidable';
 
 const app = express();
 const port = 8080;
@@ -10,6 +11,7 @@ const port = 8080;
 app.use('/public', express.static('public'));
 app.use(express.json()); // @ts-ignore
 app.use(login);
+
 // @ts-ignore
 for (const x of routes) app[x.method as 'get' || 'get'](x.route, x.fn);
 

@@ -20,44 +20,47 @@ async function OpenSendfileMenu() {
                 <strong>Enviar arquivo</strong>
             </div>
             <br>
-            <form id="sendfile-form" style='display: flex; flex-direction: row;' action="/upload" method="post" enctype="multipart/form-data">
-                <label for='file-upload'> Selecionar arquivo </label>
-                <label for='sendfile' id='sendfile-label'> Enviar arquivo</label>
-                <input style='display: none;' type='submit' id='sendfile-button' ></input>
-                <input type="file" id="file-upload" style='display: none;'>
-            </form>
+            <strong>Caminho do arquivo</strong>
+            <input value='${folder}' disabled></input>
+            <div style='display: flex; flex-direction: row;'>
+                <label for='sendfile-file'> Selecionar arquivo </label>
+                <label id='sendfile-label'> Enviar arquivo</label>
+                <input type="file" id="sendfile-file" style='display: none;'>
+            </div>
         </div>
     </div>
     `
 
+    SendFileRequest()
+
+}
+
+
+async function SendFileRequest() {
+    
     const label_sendfile = document.getElementById('sendfile-label')
-    const sendfile = document.getElementById('sendfile-button')
-    const form = document.getElementById('sendfile-form')
-    const file_upload = document.getElementById('file-upload')
+    const file = document.getElementById('sendfile-file')
 
-    label_sendfile.addEventListener('click', () => {
-        sendfile.click()
-    })
+    label_sendfile.addEventListener('click', async(e) => {
 
-    form.addEventListener('submit', (e) => {
-        
-        e.preventDefault()
+        const form = new FormData()
 
-        const file = file_upload.files
-        const formData = new FormData()
+        for (const x of file.files) { form.append('files[]', x) }
 
-        formData.append('files[]', file)
+        form.append('path', folder)
 
         const request = new API_Request()
 
         request.setRoute('upload')
-        
+        request.append('path', btoa(folder))
+
         const data = await request.fetch({
             method: 'POST',
-            body: formData()
+            body: form,
+            'Content-Type': 'multipart/form-data'
         })
 
-        console.log(file, formData, request, data)
+        console.log(file, form, request, data)
 
     })
 }
