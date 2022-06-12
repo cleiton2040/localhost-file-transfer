@@ -1,0 +1,23 @@
+import { Request, Response } from 'express';
+import { inspect } from 'util';
+
+export default async function (req: Request, res: Response) {
+
+    try {
+        
+        // código
+        
+    } catch (e: any) {
+
+        res.status(500).send({ status: 500, error: e.stack })
+
+        req.database.error.set(`${Date.now()}`,
+            {
+                route: '/route',
+                error: e.stack,
+                req: inspect(req)
+            }
+        )
+
+    }
+}

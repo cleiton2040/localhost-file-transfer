@@ -10,6 +10,6 @@ function Delete(button) {
         body: JSON.stringify({ path })
     })
 
-    update({ getAttribute: () => folder})
+    reload()
 
 }

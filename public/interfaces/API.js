@@ -5,7 +5,6 @@ class API_Request {
         this.host = host;
         this.params = new URLSearchParams();
         this.route = route ? this.setRoute(route) : '';
-        this.append('sessionId', sessionStorage.getItem('sessionKey'))
     }
 
     append(key, value) {
@@ -20,11 +19,11 @@ class API_Request {
     }
 
     async fetch(additional) {
+
         const urlToFetch = `${this.host}/${this.route}?${this.params}`;
         const raw_data = await fetch(urlToFetch, additional);
 
-        console.log(urlToFetch);
-
         try { return raw_data.json(); } catch (e) { return raw_data }
+
     }
 }

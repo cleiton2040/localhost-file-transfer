@@ -1,3 +1,5 @@
+document.getElementById('sendfile').addEventListener('click', OpenSendfileMenu)
+
 async function OpenSendfileMenu() {
 
     const popup = new Popup()
@@ -12,7 +14,7 @@ async function OpenSendfileMenu() {
             <strong>
                 Nome da pasta: <input id='folder-name'>
             </strong>
-            <label> Criar pasta</label>
+            <label onclick="createFolder()">Criar pasta</label>
         </div>
 
         <div>
@@ -43,6 +45,8 @@ async function SendFileRequest() {
 
     label_sendfile.addEventListener('click', async(e) => {
 
+        if ([...file.files].length == 0) return new Popup().element.innerHTML += "<span style='margin: 10px;'>É necessário inserir um arquivo para enviar.</span>"
+
         const form = new FormData()
 
         for (const x of file.files) { form.append('files[]', x) }
@@ -60,7 +64,47 @@ async function SendFileRequest() {
             'Content-Type': 'multipart/form-data'
         })
 
-        console.log(file, form, request, data)
+        let msg = '';
+        let popup = new Popup();
+
+        if (data.status != 200) msg = "Ocorreu um erro ao enviar este arquivo..."
+        else {
+            msg = "Arquivo enviado com sucesso! Aguarde...";
+            reload(2000)
+        }
+
+        popup.element.innerHTML += "<span style='margin: 10px;'>"+msg+"</span>"
 
     })
+}
+
+async function createFolder() {
+
+    const folderName = document.getElementById('folder-name').value.replace(/\/\\/g, '')
+    const request = new API_Request()
+
+    request.setRoute('createFolder');
+
+    const data = await request.fetch({
+        method: 'POST',
+        body: JSON.stringify({
+            folderName,
+            path: folder
+        }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+
+    let popup = new Popup();
+    let msg = '';
+
+    if (data.status != 200) msg = "Ocorreu um erro ao criar a pasta..."
+    else {
+        msg = `Pasta "${folderName}" criada com sucesso!`
+        reload()
+    }
+
+    popup.element.innerHTML += `<span style='margin: 10px;'>${msg}</span>`;
+
 }

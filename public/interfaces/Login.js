@@ -1,8 +1,8 @@
-let user = JSON.parse(sessionStorage.getItem('user')) || {};
+let user = JSON.parse(getCookie('user') || '{}');
 
 async function ask() {
-    
-    if (sessionStorage.getItem('sessionKey')) return;
+
+    if (user.username) return;
 
     const username = prompt('Usuário: ')
     const password = prompt('Senha: ')
@@ -15,9 +15,6 @@ async function ask() {
         ask()
         
     } else {
-
-        sessionStorage.setItem('sessionKey', data.hash)
-        sessionStorage.setItem('user', JSON.stringify(data.user))
 
         user = data.user;
         

@@ -3,6 +3,7 @@ import Delete from './delete';
 import getFolder from './getFolder';
 import login from './login';
 import uploadFile from './uploadFile';
+import createFolder from './createFolder';
 
 const routes = [
     {
@@ -25,6 +26,11 @@ const routes = [
     {
         fn: uploadFile,
         route: '/upload',
+        method: 'post'
+    },
+    {
+        fn: createFolder,
+        route: '/createFolder',
         method: 'post'
     }
 ]

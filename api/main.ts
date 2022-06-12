@@ -1,15 +1,16 @@
-import fs from 'fs';
 import ip from './ip';
 import routes from './routes/main';
 import express, { Request, Response } from 'express';
 import login from './use/login'; //@ts-ignore
-import formidableMiddleware from 'express-formidable';
+import cookieParser from 'cookie-parser';
+import bodyParser from 'body-parser';
 
 const app = express();
 const port = 8080;
 
 app.use('/public', express.static('public'));
-app.use(express.json()); // @ts-ignore
+app.use(express.json());
+app.use(cookieParser("secret")); // @ts-ignore
 app.use(login);
 
 // @ts-ignore

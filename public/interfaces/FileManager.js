@@ -1,4 +1,5 @@
-let folder = "/";
+let folder = atob(new URL(window.location.href).searchParams.get('folder') || "Lw==") || "/";
+let olderdata = {}
 const table = document.getElementById('file-list');
 
 /**
@@ -20,14 +21,13 @@ async function update(button) {
             table.innerHTML += `
             <tr>
                 <td><img src="/public/assets/${x.type == 'folder' ? 'pasta.png' : 'arquivo.png'}"></td>
-                <td style="text-align:left;">${x.name}</td>
+                <td style="text-align:left;">${x.name.length > 20? x.name.slice(0, 20)+'...':x.name}</td>
                 <td>${x.size_bytes} bytes</td>
                 <td>${x.createdIn}</td>
                 <td>${x.mimeType}</td>
                 <td>
                     <button data-folder="${folder}${x.name}${x.type == 'folder'? '/':''}" onclick="update(this)"><img src="/public/assets/download.png"></button> | 
-                    <button data-folder="${folder}${x.name}${x.type == 'folder'? '/':''}" onclick="Delete(this)"><img src="/public/assets/lixeira.png"></button> | 
-                    <button></button>
+                    <button data-folder="${folder}${x.name}${x.type == 'folder'? '/':''}" onclick="Delete(this)"><img src="/public/assets/lixeira.png"></button>
                 </td>
             </tr>`
         })
@@ -39,7 +39,7 @@ async function update(button) {
         }
 
     } catch(e) {
-        if(e.message == "Unexpected token C in JSON at position 0") open(`${host}getFolder?sendFile=1&folder=${btoa(folder)}`)
+        if(e.message == "Unexpected token C in JSON at position 0") open(`${host}/getFolder?sendFile=1&folder=${btoa(folder)}`)
     }
 }
 
@@ -62,9 +62,38 @@ function resetTable() {
         <td>0 bytes</td>
         <td>Agora</td>
         <td>Pasta</td>
-        <td><button data-folder="${filter}" onclick="update(this)"><img src="/public/assets/download.png"></button> | <button><img src="/public/assets/lixeira.png"></button> | <button></button></td>
+        <td><button data-folder="${filter}" onclick="update(this)"><img src="/public/assets/download.png"></button> | <button><img src="/public/assets/lixeira.png"></button>
     </tr>
     `
 }
 
-update({ getAttribute: () => '/' })
+async function refresh() {
+    
+    let i = 0;
+    const interval = setInterval(async() => {
+        
+        console.log(`[${++i}] - Fazendo uma nova requisição...`)
+        const data = await new API_Request('getFolder').append('folder', btoa(folder)).fetch();
+
+        if (data.length != olderdata) {
+
+            update({ getAttribute: () => folder })
+            clearInterval(interval)
+            console.log(`[${i}] - Dados alterados, atualizando dados e limpando o intervalo.`)
+
+        } else {
+
+            olderdata = data
+            console.log(`[${i}] - Dados não alterados, aguarde...`)
+        
+        };
+
+    }, 100)
+
+}
+
+function reload(ms) {
+    setTimeout(() => { window.location.href = `${host}/?folder=${btoa(folder)}` }, 1000)
+}
+
+refresh()

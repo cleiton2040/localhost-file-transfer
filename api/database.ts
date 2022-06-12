@@ -4,15 +4,12 @@ import { QuickDB } from "quick.db";
 const db = new QuickDB();
 const users = db.table('users') as QuickDB// | User;
 const sessions = db.table('sessions') as QuickDB// | Sessions;
-
+const logs = db.table('logs') as QuickDB;
+const error = db.table('error')
 
 export {
     users,
-    sessions
+    sessions,
+    logs,
+    error
 }
-
-users.set('admin', {
-    username: 'admin',
-    password: 'admin',
-    level: 3
-})
