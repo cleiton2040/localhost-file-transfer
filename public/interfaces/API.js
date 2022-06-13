@@ -18,12 +18,15 @@ class API_Request {
         return this.route;
     }
 
-    async fetch(additional) {
+    async fetch(options) {
+
+        if (options?.body && typeof options.body != 'string') options.body = JSON.stringify(options.body);
 
         const urlToFetch = `${this.host}/${this.route}?${this.params}`;
-        const raw_data = await fetch(urlToFetch, additional);
+        const raw_data = await fetch(urlToFetch, options);
 
         try { return raw_data.json(); } catch (e) { return raw_data }
 
     }
+
 }

@@ -1,7 +1,7 @@
 let Popup_Running = false;
 
 class Popup {
-    constructor() {
+    constructor(options) {
 
         if (Popup_Running) this.close();
 
@@ -16,7 +16,7 @@ class Popup {
 
         this.element = document.getElementById('popup')
         this.background = document.getElementById('popup-background')
-        this.button = this.addButton('x', 'Popup.close()')//this.element.getElementsByTagName('button')[0];
+        this.button = this.addButton('x', `Popup.close(${!!options?.reloadOnClose}, ${options?.timeToReload})`, 'Fechar janela')//this.element.getElementsByTagName('button')[0];
 
         Popup_Running = true;
 
@@ -48,20 +48,24 @@ class Popup {
 
     }
 
-    addButton(innerHTML, onclick) {
+    addButton(innerHTML, onclick, title) {
 
-        this.element.innerHTML += `<button onclick="${onclick}">${innerHTML}</button>`
+        this.element.innerHTML += `<button onclick="${onclick}" ${title? `title='${title}'`:''}>${innerHTML}</button>`
         return [...this.element.getElementsByTagName('button')].reverse()[0]
 
     }
 
-    static close() {
+    static close(reload, timeToReload) {
 
         document.getElementById('popup-background').remove()
 
         Popup_Running = false;
 
+        if (reload) reloadPage(timeToReload)
+
     }
 
     close = Popup.close
+
+    onClose() {}
 }

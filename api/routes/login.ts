@@ -20,6 +20,8 @@ export default async function (req: Request, res: Response) {
                 username: req.query.username,
                 password: req.query.password,
                 in: Date.now(),
+                lastTime: Date.now(),
+                active: true,
                 ip: req.socket.localAddress || req.ip,
                 userAgent: req.get('User-Agent')
             }
@@ -30,8 +32,8 @@ export default async function (req: Request, res: Response) {
         users.push(`${user.username}.sessions`, hash);
         user.sessions.push(hash);
 
-        res.cookie('user', JSON.stringify(user), { maxAge: 1000 * 60 * 30, signed: false, path: '/' })
-        res.cookie('sessionId', hash, { maxAge: 1000 * 60 * 30, signed: false, path: '/' })
+        res.cookie('user', JSON.stringify(user))
+        res.cookie('sessionId', hash)
 
         res.status(200).send({ status: 200 })
 

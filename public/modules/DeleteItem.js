@@ -1,4 +1,4 @@
-function Delete(button) {
+function deleteItem(button) {
 
     const path = button.getAttribute('data-folder')
 
@@ -7,9 +7,9 @@ function Delete(button) {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ path })
+        body: { path }
     })
 
-    reload()
+    reloadPage()
 
 }

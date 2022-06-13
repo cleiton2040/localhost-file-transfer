@@ -2,7 +2,7 @@ let user = JSON.parse(getCookie('user') || '{}');
 
 async function ask() {
 
-    if (user.username) return;
+    if (getCookie('sessionId') && user?.username) return ConfigByUser();
 
     const username = prompt('Usuário: ')
     const password = prompt('Senha: ')
@@ -17,8 +17,6 @@ async function ask() {
     } else {
 
         user = data.user;
-        
-        update({ getAttribute: () => '/' })
         
         window.location.href = window.location.href.includes('/')? host:host + '/'
     }

@@ -2,51 +2,59 @@ let folder = atob(new URL(window.location.href).searchParams.get('folder') || "L
 let olderdata = {}
 const table = document.getElementById('file-list');
 
+const icones = {
+    download: '/public/assets/download.png',
+    lixeira: '/public/assets/lixeira.png',
+    pasta: 'public/assets/pasta.png',
+    arquivo: 'public/assets/arquivo.png'
+}
+
 /**
  * btoa = ascii to base64
  * atob = base64 to ascii 
  */
 
-async function update(button) {
+async function updateTable(button) {
 
     try {
 
         folder = button.getAttribute("data-folder");
 
         const data = await new API_Request('getFolder').append('folder', btoa(folder)).fetch();
+        const writeInDelete = user.level < 2 ? 'disabled style="opacity: 0.6; cursor: unset;"' : 'onclick="deleteItem(this)"'
 
         resetTable();
 
         data.sort((x, y) => y.type.length - x.type.length).map(x => {
+
+            const filePath = `${folder}${x.name}${x.type == 'folder' ? '/' : ''}`;
+            const fileIcon = x.type == 'folder' ? icones.pasta : icones.arquivo;
+            const fileName = x.name.length > 20 ? x.name.slice(0, 20) + '...' : x.name;
+
             table.innerHTML += `
             <tr>
-                <td><img src="/public/assets/${x.type == 'folder' ? 'pasta.png' : 'arquivo.png'}"></td>
-                <td style="text-align:left;">${x.name.length > 20? x.name.slice(0, 20)+'...':x.name}</td>
+                <td><img src="${fileIcon}"></td>
+                <td style="text-align:left;">${fileName}</td>
                 <td>${x.size_bytes} bytes</td>
-                <td>${x.createdIn}</td>
-                <td>${x.mimeType}</td>
+                <td>${x.createdIn}       </td>
+                <td>${x.mimeType}        </td>
                 <td>
-                    <button data-folder="${folder}${x.name}${x.type == 'folder'? '/':''}" onclick="update(this)"><img src="/public/assets/download.png"></button> | 
-                    <button data-folder="${folder}${x.name}${x.type == 'folder'? '/':''}" onclick="Delete(this)"><img src="/public/assets/lixeira.png"></button>
+                    <button data-folder="${filePath}" onclick="updateTable(this)" title="- Baixar arquivo\n- Acessar pasta"><img src="${icones.download}"></button> | 
+                    <button data-folder="${filePath}" ${writeInDelete}            title="Deletar arquivo ou pasta"><img src="${icones.lixeira}"> </button>
                 </td>
             </tr>`
+
         })
-        
-        console.log(user);
 
-        for ( let x of document.getElementsByClassName('username')) {
-            x.innerHTML = user.username + ' - ' + user.level || 0
-        }
-
-    } catch(e) {
-        if(e.message == "Unexpected token C in JSON at position 0") open(`${host}/getFolder?sendFile=1&folder=${btoa(folder)}`)
+    } catch (e) {
+        if (e.message == "Unexpected token C in JSON at position 0") open(`${host}/getFolder?sendFile=1&folder=${btoa(folder)}`)
     }
 }
 
 function resetTable() {
 
     const filter = folder.split('/').slice(0, -2).join('/') || '/';
-    console.log(filter)
+
     table.innerHTML = `
     <tr>
         <th>Tipo</th>
@@ -62,38 +70,41 @@ function resetTable() {
         <td>0 bytes</td>
         <td>Agora</td>
         <td>Pasta</td>
-        <td><button data-folder="${filter}" onclick="update(this)"><img src="/public/assets/download.png"></button> | <button><img src="/public/assets/lixeira.png"></button>
+        <td><button data-folder="${filter}" onclick="updateTable(this)"><img src="/public/assets/download.png"></button> | <button disabled style="opacity: 0.6; cursor: unset;"><img src="/public/assets/lixeira.png"></button>
     </tr>
     `
+    
 }
 
-async function refresh() {
-    
+async function refreshTable() {
+
     let i = 0;
-    const interval = setInterval(async() => {
-        
+    const interval = setInterval(async () => {
+
         console.log(`[${++i}] - Fazendo uma nova requisição...`)
         const data = await new API_Request('getFolder').append('folder', btoa(folder)).fetch();
 
         if (data.length != olderdata) {
 
-            update({ getAttribute: () => folder })
+            updateTable({ getAttribute: () => folder })
+
             clearInterval(interval)
+
             console.log(`[${i}] - Dados alterados, atualizando dados e limpando o intervalo.`)
 
         } else {
 
             olderdata = data
             console.log(`[${i}] - Dados não alterados, aguarde...`)
-        
+
         };
 
     }, 100)
 
 }
 
-function reload(ms) {
-    setTimeout(() => { window.location.href = `${host}/?folder=${btoa(folder)}` }, 1000)
+function reloadPage(ms) {
+    setTimeout(() => { window.location.href = `${host}/?folder=${btoa(folder)}` }, ms || 1000)
 }
 
-refresh()
+refreshTable()

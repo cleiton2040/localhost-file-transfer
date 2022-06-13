@@ -2,7 +2,7 @@ document.getElementById('sendfile').addEventListener('click', OpenSendfileMenu)
 
 async function OpenSendfileMenu() {
 
-    const popup = new Popup()
+    const popup = new Popup({ reloadOnClose: true })
 
     popup.element.innerHTML += `
     <div id='sendfile-container'>
@@ -33,7 +33,7 @@ async function OpenSendfileMenu() {
     </div>
     `
 
-    SendFileRequest()
+    SendFileRequest();
 
 }
 
@@ -45,7 +45,7 @@ async function SendFileRequest() {
 
     label_sendfile.addEventListener('click', async(e) => {
 
-        if ([...file.files].length == 0) return new Popup().element.innerHTML += "<span style='margin: 10px;'>É necessário inserir um arquivo para enviar.</span>"
+        if ([...file.files].length == 0) return new Popup({ reloadOnClose: true }).element.innerHTML += "<span style='margin: 10px;'>É necessário inserir um arquivo para enviar.</span>"
 
         const form = new FormData()
 
@@ -65,12 +65,12 @@ async function SendFileRequest() {
         })
 
         let msg = '';
-        let popup = new Popup();
+        let popup = new Popup({ reloadOnClose: true });
 
         if (data.status != 200) msg = "Ocorreu um erro ao enviar este arquivo..."
         else {
             msg = "Arquivo enviado com sucesso! Aguarde...";
-            reload(2000)
+            reloadPage(2000)
         }
 
         popup.element.innerHTML += "<span style='margin: 10px;'>"+msg+"</span>"
@@ -83,26 +83,28 @@ async function createFolder() {
     const folderName = document.getElementById('folder-name').value.replace(/\/\\/g, '')
     const request = new API_Request()
 
+    if (!folderName) return new Popup({ reloadOnClose: true }).element.innerHTML += "<spa style='margin: 10px'>Insira um nome para a pasta.</span>"
+
     request.setRoute('createFolder');
 
     const data = await request.fetch({
         method: 'POST',
-        body: JSON.stringify({
+        body: {
             folderName,
             path: folder
-        }),
+        },
         headers: {
             'Content-Type': 'application/json'
         }
     })
 
-    let popup = new Popup();
+    let popup = new Popup({ reloadOnClose: true });
     let msg = '';
 
     if (data.status != 200) msg = "Ocorreu um erro ao criar a pasta..."
     else {
         msg = `Pasta "${folderName}" criada com sucesso!`
-        reload()
+        reloadPage()
     }
 
     popup.element.innerHTML += `<span style='margin: 10px;'>${msg}</span>`;

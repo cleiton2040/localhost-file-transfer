@@ -5,14 +5,20 @@ export default async function (req: Request, res: Response) {
 
     try {
         
-        // código
+        const time = req.body.time
         
+        if (!time || time <= 0 || time >= 6.048e+8) return res.send({ status: 400 });
+        
+        req.database.users.set(`${req.user.username}.timeToAutoExit`, time);
         req.database.logs.push(`${req.user.username}`,
             {
                 in: Date.now(),
-                type: type,
+                type: 6,
+                newtime: time
             }
         )
+
+        res.send({ status: 200 });
 
     } catch (e: any) {
 

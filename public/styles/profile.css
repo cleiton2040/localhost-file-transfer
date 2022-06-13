@@ -1,0 +1,39 @@
+#profile-container, 
+#change-password,
+#change-time_to_auto_exit {
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+}
+
+#profile-container *, 
+#change-password *,
+#change-time_to_auto_exit * {
+    margin-block: 2px;
+}
+
+#profile-container div, 
+#change-password div,
+#change-time_to_auto_exit div {
+    border: 0.4px solid black;
+    padding: 4px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+#profile-container input, 
+#profile-container button,
+#change-password input,
+#change-password button,
+#change-time_to_auto_exit input,
+#change-time_to_auto_exit button {
+    border-radius: 10px;
+    padding: 3px;
+}
+
+#profile-container button,
+#change-password button,
+#change-time_to_auto_exit button {
+    cursor: pointer;
+}

@@ -3,7 +3,6 @@ import routes from './routes/main';
 import express, { Request, Response } from 'express';
 import login from './use/login'; //@ts-ignore
 import cookieParser from 'cookie-parser';
-import bodyParser from 'body-parser';
 
 const app = express();
 const port = 8080;

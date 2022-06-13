@@ -1,4 +1,3 @@
-//@ts-ignore
 import ip from 'ip';
 
 const IP = {

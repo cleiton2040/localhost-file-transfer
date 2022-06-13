@@ -1,6 +1,6 @@
 import { Request } from 'express';
 import { QuickDB } from 'quick.db';
-import { User } from './database';
+import { User } from '../database';
 
 declare module 'express' {
     export interface Request {
@@ -11,5 +11,6 @@ declare module 'express' {
             logs: QuickDB,
             error: QuickDB
         }
+        sessionId: string
     }
 }

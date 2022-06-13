@@ -5,19 +5,21 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="/public/style.css">
-    <link rel="stylesheet" type="text/css" href="/public/sendfile.css">
+    <link rel="stylesheet" type="text/css" href="/public/styles/main.css">
+    <link rel="stylesheet" type="text/css" href="/public/styles/sendfile.css">
+    <link rel="stylesheet" type="text/css" href="/public/styles/profile.css">
     <title>Localhost file transfer</title>
 </head>
 
 <body>
 
     <header>
-        <b class="username">
-            Sem usuário
+        <b user-name user-level>
+            {user.name} - {user.level}
         </b>
         <div>
-            <button id="sendfile"><img src="/public/assets/send-file.png"></button>
+            <button id="sendfile" title="Enviar arquivo / Criar pasta"><img src="/public/assets/send-file.png"></button>
+            <button id="profile" title="Gerenciar perfil"><img src="/public/assets/perfil.png"></button>
         </div>
     </header>
 
@@ -30,9 +32,12 @@
     <script src="/public/interfaces/Cookie.js"></script>
     <script src="/public/interfaces/Popup.js"></script>
     <script src="/public/interfaces/API.js"></script>
+    <script src="/public/interfaces/Config.js"></script>
     <script src="/public/interfaces/Login.js"></script>
     <script src="/public/interfaces/FileManager.js"></script>
+    <script src="/public/interfaces/Timers.js"></script>
 
+    <script src="/public/modules/Profile.js"></script>
     <script src="/public/modules/CreateItem.js"></script>
     <script src="/public/modules/DeleteItem.js"></script>
 </body>

@@ -1,20 +1,22 @@
 import { Request, Response } from 'express';
-import fs from 'fs';
+import fs, { existsSync } from 'fs';
 import { inspect } from 'util';
 
 export default async function (req: Request, res: Response) {
 
     try {
 
+        if (+req.user.level < 2) return res.status(401).send({ status: 401 });
+
         const path = req.body.path as string;
-
-        if (!path) return res.status(404);
-
         const fileName = path.slice(1).replace(/\/|\\/g, '_')
 
+        if (!path) return res.status(400).send({ status: 400, message: "Insira o caminho do item." });
+        if (!existsSync(`./files${path}`)) return res.status(404).send({ status: 404, message: "Item não existe."});
+
         fs.renameSync(
-            `${process.cwd()}\\files${path}`.replace(/\\/g, '/'),
-            `${process.cwd()}\\deleted\\(${Date.now()})-${fileName}`.replace(/\\/g, '/')
+            `./files${path}`.replace(/\\/g, '/'),
+            `./deleted/(${Date.now()})-${fileName}`.replace(/\\/g, '/')
         )
 
         req.database.logs.push(`${req.user.username}`,

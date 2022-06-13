@@ -4,6 +4,9 @@ import getFolder from './getFolder';
 import login from './login';
 import uploadFile from './uploadFile';
 import createFolder from './createFolder';
+import getUserData from './getUserData';
+import changePassword from './changePassword';
+import changettae from './changettae';
 
 const routes = [
     {
@@ -32,6 +35,20 @@ const routes = [
         fn: createFolder,
         route: '/createFolder',
         method: 'post'
+    },
+    {
+        fn: getUserData,
+        route: '/getUserData'
+    },
+    {
+        fn: changePassword,
+        route: '/changePassword',
+        method: 'patch'
+    },
+    {
+        fn: changettae,
+        route: '/changettae',
+        method: 'patch'
     }
 ]
 

@@ -8,6 +8,8 @@ export default async function (req: Request, res: Response) {
 
     try {
 
+        if (+req.user.level < 2) return res.status(401).send({ status: 401 });
+
         const form = new formidable.IncomingForm()
 
         form.parse(req, (err: any, fields: any, files: any) => {

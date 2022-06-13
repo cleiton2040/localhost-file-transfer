@@ -17,10 +17,11 @@ function getCookie(cname) {
     return "";
 }
 
-function setCookie(cname, cvalue, exdays) {
+function setCookie(cname, cvalue, milisseconds) {
 
-    const d = new Date(Date.now() + (exdays * 24 * 60 * 60 * 1000));
+    const d = new Date(Date.now() + milisseconds);
     const expires = `expires=${d.toUTCString()}`;
 
-    document.cookie = `${cname}=${cvalue};${expires};path=/`;
+    document.cookie = `${cname}=${typeof cvalue == 'string' ? cvalue : JSON.stringify(cvalue)};${expires};path=/`;
+
 }
